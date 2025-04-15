@@ -75,7 +75,7 @@ if args.dataset == 'cifar10':
 elif args.dataset == 'cifar100':
     train_loader, test_loader = dataset.get_cifar100(batch_size=args.batch_size, num_workers=1)
 elif args.dataset == 'imagenet':
-    train_loader, test_loader = dataset.get_imagenet(batch_size=args.batch_size, num_workers=1)
+    train_loader, test_loader = dataset.get_imagenet(batch_size=args.batch_size, data_root="/local/a/imagenet/imagenet2012/", num_workers=1)
 else:
     raise ValueError("Unknown dataset type")
     
@@ -94,6 +94,13 @@ elif args.model == 'ResNet18':
     # model_path = './log/xxx.pth'
     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
     modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = True)
+elif args.model == 'ResNet50':
+    from models import ResNet
+    # FP mode pretrained model, loaded from 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
+    # model_path = './log/xxx.pth'
+    # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
+    modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = False)
+    # print(modelCF)
 else:
     raise ValueError("Unknown model type")
 
@@ -138,6 +145,7 @@ for i, (data, target) in enumerate(test_loader):
         correct += pred.cpu().eq(indx_target).sum()
     if i==0:
         hook.remove_hook_list(hook_handle_list)
+    break
 
 test_loss = test_loss / len(test_loader)  # average over number of mini-batch
 acc = 100. * correct / len(test_loader.dataset)

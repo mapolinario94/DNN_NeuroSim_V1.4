@@ -99,7 +99,7 @@ elif args.model == 'ResNet50':
     # FP mode pretrained model, loaded from 'https://download.pytorch.org/models/resnet18-5c106cde.pth'
     # model_path = './log/xxx.pth'
     # modelCF = ResNet.resnet18(args = args, logger=logger, pretrained = model_path)
-    modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = False)
+    modelCF = ResNet.resnet50(args = args, logger=logger, pretrained = None)
     # print(modelCF)
 else:
     raise ValueError("Unknown model type")
